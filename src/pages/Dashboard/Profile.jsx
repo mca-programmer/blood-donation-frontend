@@ -26,7 +26,7 @@ const Profile = () => {
         bloodGroup: form.bloodGroup,
         avatar: form.avatar,
       });
-      
+
       setEdit(false);
       alert("Profile updated successfully!");
     } catch (err) {
@@ -55,27 +55,27 @@ const Profile = () => {
       <Sidebar />
       <main className="flex-1 p-6 bg-gray-100 text-gray-600">
         <div className="card max-w-xl mx-auto p-6 shadow-lg bg-white">
-          <h2 className="text-2xl text-indigo-600 font-bold mb-4">My Profile</h2>
-          
+          <h2 className="text-2xl text-red-600 font-bold mb-4">My Profile</h2>
+
           <div className="flex justify-between items-center mb-4">
             {!edit ? (
-              <button 
-                className="btn btn-sm btn-primary" 
+              <button
+                className="btn btn-sm btn-primary"
                 onClick={() => setEdit(true)}
               >
                 Edit Profile
               </button>
             ) : (
               <div className="space-x-2">
-                <button 
-                  className="btn btn-sm btn-success" 
+                <button
+                  className="btn btn-sm btn-success"
                   onClick={handleSave}
                   disabled={loading}
                 >
                   {loading ? "Saving..." : "Save Changes"}
                 </button>
-                <button 
-                  className="btn btn-sm btn-outline" 
+                <button
+                  className="btn btn-sm btn-outline"
                   onClick={handleCancel}
                   disabled={loading}
                 >
@@ -91,21 +91,21 @@ const Profile = () => {
               <label className="label">
                 <span className="label-text">Avatar URL</span>
               </label>
-              <input 
-                type="text" 
-                value={form.avatar} 
+              <input
+                type="text"
+                value={form.avatar}
                 onChange={(e) => setForm({ ...form, avatar: e.target.value })}
-                className="input input-bordered w-full" 
+                className="input input-bordered w-full"
                 disabled={!edit}
                 placeholder="Enter image URL"
               />
               {form.avatar && (
                 <div className="mt-2">
-                  <img 
-                    src={form.avatar} 
-                    alt="Avatar preview" 
+                  <img
+                    src={form.avatar}
+                    alt="Avatar preview"
                     className="w-20 h-20 rounded-full object-cover"
-                    onError={(e) => e.target.src = '/default-avatar.png'}
+                    onError={(e) => (e.target.src = "/default-avatar.png")}
                   />
                 </div>
               )}
@@ -116,11 +116,11 @@ const Profile = () => {
               <label className="label">
                 <span className="label-text">Name</span>
               </label>
-              <input 
-                type="text" 
-                value={form.name} 
+              <input
+                type="text"
+                value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="input input-bordered w-full" 
+                className="input input-bordered w-full"
                 disabled={!edit}
               />
             </div>
@@ -130,14 +130,16 @@ const Profile = () => {
               <label className="label">
                 <span className="label-text">Email</span>
               </label>
-              <input 
-                type="email" 
-                value={form.email} 
-                className="input input-bordered w-full bg-gray-100" 
+              <input
+                type="email"
+                value={form.email}
+                className="input input-bordered w-full bg-gray-100"
                 disabled
               />
               <label className="label">
-                <span className="label-text-alt text-gray-500">Email cannot be changed</span>
+                <span className="label-text-alt text-gray-500">
+                  Email cannot be changed
+                </span>
               </label>
             </div>
 
@@ -147,10 +149,12 @@ const Profile = () => {
                 <span className="label-text">Blood Group</span>
               </label>
               {edit ? (
-                <select 
+                <select
                   className="select select-bordered w-full"
-                  value={form.bloodGroup} 
-                  onChange={(e) => setForm({ ...form, bloodGroup: e.target.value })}
+                  value={form.bloodGroup}
+                  onChange={(e) =>
+                    setForm({ ...form, bloodGroup: e.target.value })
+                  }
                 >
                   <option value="">Select Blood Group</option>
                   <option>A+</option>
@@ -163,10 +167,10 @@ const Profile = () => {
                   <option>O-</option>
                 </select>
               ) : (
-                <input 
-                  type="text" 
-                  value={form.bloodGroup} 
-                  className="input input-bordered w-full" 
+                <input
+                  type="text"
+                  value={form.bloodGroup}
+                  className="input input-bordered w-full"
                   disabled
                 />
               )}
@@ -177,11 +181,11 @@ const Profile = () => {
               <label className="label">
                 <span className="label-text">District</span>
               </label>
-              <input 
-                type="text" 
-                value={form.district} 
+              <input
+                type="text"
+                value={form.district}
                 onChange={(e) => setForm({ ...form, district: e.target.value })}
-                className="input input-bordered w-full" 
+                className="input input-bordered w-full"
                 disabled={!edit}
                 placeholder="e.g. Dhaka"
               />
@@ -192,11 +196,11 @@ const Profile = () => {
               <label className="label">
                 <span className="label-text">Upazila</span>
               </label>
-              <input 
-                type="text" 
-                value={form.upazila} 
+              <input
+                type="text"
+                value={form.upazila}
                 onChange={(e) => setForm({ ...form, upazila: e.target.value })}
-                className="input input-bordered w-full" 
+                className="input input-bordered w-full"
                 disabled={!edit}
                 placeholder="e.g. Mirpur"
               />
@@ -207,10 +211,10 @@ const Profile = () => {
               <label className="label">
                 <span className="label-text">Role</span>
               </label>
-              <input 
-                type="text" 
-                value={user?.role || "donor"} 
-                className="input input-bordered w-full bg-gray-100" 
+              <input
+                type="text"
+                value={user?.role || "donor"}
+                className="input input-bordered w-full bg-gray-100"
                 disabled
               />
             </div>
@@ -220,10 +224,12 @@ const Profile = () => {
               <label className="label">
                 <span className="label-text">Account Status</span>
               </label>
-              <input 
-                type="text" 
-                value={user?.status || "active"} 
-                className={`input input-bordered w-full ${user?.status === 'active' ? 'bg-green-50' : 'bg-red-50'}`}
+              <input
+                type="text"
+                value={user?.status || "active"}
+                className={`input input-bordered w-full ${
+                  user?.status === "active" ? "bg-green-50" : "bg-red-50"
+                }`}
                 disabled
               />
             </div>

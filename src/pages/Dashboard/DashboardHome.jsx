@@ -33,7 +33,7 @@ const DashboardHome = () => {
       <Sidebar />
       <main className="flex-1 p-6 bg-gray-100">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-indigo-600 mb-2">
+          <h1 className="text-3xl font-bold text-red-600 mb-2">
             Welcome back, {user?.name || "User"}! 👋
           </h1>
           <p className="text-gray-800">
@@ -63,15 +63,13 @@ const DashboardHome = () => {
 
         {/* Quick Actions */}
         <div className="mt-8">
-          <h2 className="text-xl font-bold text-indigo-600 mb-4">
-            Quick Actions
-          </h2>
+          <h2 className="text-xl font-bold text-red-600 mb-4">Quick Actions</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             <a
               href="/dashboard/create-donation-request"
               className="card bg-white p-4 shadow hover:shadow-lg transition"
             >
-              <h3 className="font-semibold text-indigo-600">Create Request</h3>
+              <h3 className="font-semibold text-red-600">Create Request</h3>
               <p className="text-sm text-gray-800">
                 Post a blood donation request
               </p>
@@ -81,7 +79,7 @@ const DashboardHome = () => {
               href="/dashboard/my-donation-requests"
               className="card bg-white p-4 shadow hover:shadow-lg transition"
             >
-              <h3 className="font-semibold text-indigo-600">My Requests</h3>
+              <h3 className="font-semibold text-red-600">My Requests</h3>
               <p className="text-sm text-gray-800">
                 View your donation requests
               </p>
@@ -91,9 +89,7 @@ const DashboardHome = () => {
               href="/donation-requests"
               className="card bg-white p-4 shadow hover:shadow-lg transition"
             >
-              <h3 className="font-semibold text-indigo-600">
-                Pending Requests
-              </h3>
+              <h3 className="font-semibold text-red-600">Pending Requests</h3>
               <p className="text-sm text-gray-800">
                 Browse blood donation needs
               </p>
@@ -103,7 +99,7 @@ const DashboardHome = () => {
               href="/dashboard/profile"
               className="card bg-white p-4 shadow hover:shadow-lg transition"
             >
-              <h3 className="font-semibold text-indigo-600">My Profile</h3>
+              <h3 className="font-semibold text-red-600">My Profile</h3>
               <p className="text-sm text-gray-800">Update your information</p>
             </a>
           </div>
@@ -111,7 +107,7 @@ const DashboardHome = () => {
 
         {/* User Info Card */}
         <div className="mt-8">
-          <h2 className="text-xl font-bold text-indigo-600 mb-4">
+          <h2 className="text-xl font-bold text-red-600 mb-4">
             Your Information
           </h2>
           <div className="card bg-white text-gray-600 p-6 shadow">

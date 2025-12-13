@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { FcGoogle } from "react-icons/fc";
 
-
 const Login = () => {
   const { login, loginWithGoogle, loading } = useAuth();
   const [form, setForm] = useState({ email: "", password: "" });
@@ -30,8 +29,11 @@ const Login = () => {
     <div>
       <Navbar />
       <div className="flex justify-center bg-gray-400 items-center h-screen">
-        <form onSubmit={handleSubmit} className="card p-8 shadow-lg w-full max-w-md space-y-4 bg-white">
-          <h2 className="text-2xl font-bold text-indigo-500 text-center">Login</h2>
+        <form
+          onSubmit={handleSubmit}
+          className="card p-8 shadow-lg w-full max-w-md space-y-4 bg-white"
+        >
+          <h2 className="text-2xl font-bold text-red-500 text-center">Login</h2>
 
           {/* Email Input */}
           <input
@@ -72,7 +74,10 @@ const Login = () => {
           </button>
 
           <p className="text-center text-red-400 mt-4">
-            Don't have an account? <Link to="/register" className="text-indigo-500">Register</Link>
+            Don't have an account?{" "}
+            <Link to="/register" className="text-red-500">
+              Register
+            </Link>
           </p>
         </form>
       </div>

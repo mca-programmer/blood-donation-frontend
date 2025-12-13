@@ -44,7 +44,9 @@ const Register = () => {
           onSubmit={handleSubmit}
           className="card p-8 shadow-lg w-full max-w-md space-y-4 bg-white rounded-lg"
         >
-          <h2 className="text-2xl text-indigo-500 font-bold text-center">Register</h2>
+          <h2 className="text-2xl text-red-500 font-bold text-center">
+            Register
+          </h2>
 
           <input
             type="text"
