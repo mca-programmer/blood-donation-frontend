@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -37,48 +37,28 @@ export const AuthProvider = ({ children }) => {
 
   const [loading, setLoading] = useState(false);
 
-  // ✅ FIX: Create axios instance ONCE with useMemo
-  const axiosInstance = useMemo(() => {
-    const instance = axios.create({
-      baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
-    });
+  // Axios instance for backend APIs
+  const axiosInstance = axios.create({
+    baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
+  });
 
-    // Set token from localStorage immediately
+  // ✅ FIX: Set token IMMEDIATELY when component mounts
+  useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      instance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     }
+  }, []); // Empty dependency - runs once on mount
 
-    // Add request interceptor to always get fresh token
-    instance.interceptors.request.use(
-      (config) => {
-        const token = localStorage.getItem("token");
-        if (token) {
-          config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-      },
-      (error) => {
-        return Promise.reject(error);
-      }
-    );
-
-    // Add response interceptor for error handling
-    instance.interceptors.response.use(
-      (response) => response,
-      (error) => {
-        if (error.response?.status === 401) {
-          // Token expired or invalid
-          localStorage.removeItem("token");
-          localStorage.removeItem("user");
-          // Don't navigate here, let the component handle it
-        }
-        return Promise.reject(error);
-      }
-    );
-
-    return instance;
-  }, []); // Empty dependency - create only once
+  // ✅ FIX: Also update token when user changes
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    } else {
+      delete axiosInstance.defaults.headers.common["Authorization"];
+    }
+  }, [user]);
 
   // Listen to Firebase auth state changes
   useEffect(() => {
@@ -88,7 +68,7 @@ export const AuthProvider = ({ children }) => {
       }
     });
     return () => unsubscribe();
-  }, [user]);
+  }, []);
 
   // -------------------------
   // Email/Password Register
@@ -121,7 +101,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
       
-      // Update axios headers
+      // ✅ FIX: Set token in axios headers immediately
       axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${res.data.token}`;
       
       setUser(res.data.user);
@@ -154,7 +134,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
       
-      // Update axios headers
+      // ✅ FIX: Set token in axios headers immediately
       axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${res.data.token}`;
       
       setUser(res.data.user);
@@ -191,7 +171,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
       
-      // Update axios headers
+      // ✅ FIX: Set token in axios headers immediately
       axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${res.data.token}`;
       
       setUser(res.data.user);
@@ -215,7 +195,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     
-    // Remove token from axios headers
+    // ✅ FIX: Remove token from axios headers
     delete axiosInstance.defaults.headers.common["Authorization"];
     
     navigate("/login");

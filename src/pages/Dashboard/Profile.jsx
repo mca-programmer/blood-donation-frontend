@@ -53,7 +53,7 @@ const Profile = () => {
   return (
     <div className="flex min-h-screen">
       <Sidebar />
-      <main className="flex-1 p-6 bg-gray-100">
+      <main className="flex-1 p-6 bg-gray-100 text-gray-600">
         <div className="card max-w-xl mx-auto p-6 shadow-lg bg-white">
           <h2 className="text-2xl text-indigo-600 font-bold mb-4">My Profile</h2>
           
