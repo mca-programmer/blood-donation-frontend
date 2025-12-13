@@ -36,7 +36,7 @@ export const PartnersSection = () => {
   const duplicatedPartners = [...partners, ...partners];
 
   return (
-    <section className="py-16 bg-gray-50 overflow-hidden container mx-auto text-center">
+    <section className="py-10 bg-gray-50 overflow-hidden container mx-auto text-center">
       <div className="max-w-7xl mx-auto px-4">
         <h2 className="text-3xl font-bold text-center text-red-600 mb-4">
           Our Trusted Partners

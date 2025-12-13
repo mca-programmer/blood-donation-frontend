@@ -3,6 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import BloodDonationBanner from "../components/BloodDonationBanner";
 import { PartnersSection } from "../components/PartnersSection";
 import { FAQSection } from "../components/FAQSection";
 
@@ -11,26 +12,18 @@ const Home = () => {
     <div>
       {/* navbar section */}
       <Navbar />
+
       {/* Banner section */}
-      <section className="bg-red-100 text-red-500 py-20 container mx-auto text-center">
-        <h1 className="text-5xl font-bold mb-6">Donate Blood, Save Lives</h1>
-        <p className="text-lg mb-6">Join our Blood Donation community today!</p>
-        <div className="space-x-4">
-          <Link to="/register" className="btn btn-primary">
-            Join as Donor
-          </Link>
-          <Link to="/search" className="btn btn-outline btn-primary">
-            Search Donors
-          </Link>
-        </div>
-      </section>
+      <BloodDonationBanner />
 
       {/* partners Section */}
       <PartnersSection />
-      
+
       {/* Why Donate Blood */}
-      <section className="py-20 container mx-auto text-center">
-        <h2 className="text-3xl text-red-500 font-bold mb-6">Why Donate Blood?</h2>
+      <section className="py-10 container mx-auto text-center">
+        <h2 className="text-3xl text-red-500 font-bold mb-6">
+          Why Donate Blood?
+        </h2>
         <div className="grid md:grid-cols-3 gap-6">
           <div className="card p-6 shadow rounded-lg">
             <h3 className="font-bold text-xl mb-2">Save Lives</h3>
@@ -52,7 +45,7 @@ const Home = () => {
       <FAQSection />
 
       {/* Contact Us */}
-      <section className="py-20 bg-gray-100 container mx-auto text-center">
+      <section className="py-10 container mx-auto text-center">
         <h2 className="text-3xl font-bold mb-6 text-red-500">Contact Us</h2>
         <form className="max-w-md mx-auto space-y-4">
           <input
@@ -72,10 +65,9 @@ const Home = () => {
           <button className="btn btn-primary w-full">Send Message</button>
         </form>
       </section>
-     
+
       {/* footer section */}
       <Footer />
-
     </div>
   );
 };
