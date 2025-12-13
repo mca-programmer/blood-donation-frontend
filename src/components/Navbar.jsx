@@ -14,7 +14,10 @@ const Navbar = () => {
 
       <ul className="flex items-center space-x-4">
         <li>
-          <Link to="/donation-requests" className="hover:text-red-500">
+          <Link
+            to="/donation-requests"
+            className="btn btn-sm btn-primary hover:text-red-500"
+          >
             Requests
           </Link>
         </li>

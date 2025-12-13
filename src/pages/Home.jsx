@@ -9,6 +9,7 @@ import { FAQSection } from "../components/FAQSection";
 const Home = () => {
   return (
     <div>
+      {/* navbar section */}
       <Navbar />
       {/* Banner section */}
       <section className="bg-red-100 text-red-500 py-20 container mx-auto text-center">
@@ -24,9 +25,12 @@ const Home = () => {
         </div>
       </section>
 
+      {/* partners Section */}
+      <PartnersSection />
+      
       {/* Why Donate Blood */}
       <section className="py-20 container mx-auto text-center">
-        <h2 className="text-3xl font-bold mb-6">Why Donate Blood?</h2>
+        <h2 className="text-3xl text-red-500 font-bold mb-6">Why Donate Blood?</h2>
         <div className="grid md:grid-cols-3 gap-6">
           <div className="card p-6 shadow rounded-lg">
             <h3 className="font-bold text-xl mb-2">Save Lives</h3>
@@ -43,8 +47,10 @@ const Home = () => {
         </div>
       </section>
 
-      <PartnersSection />
+      {/* FAQ Section */}
+
       <FAQSection />
+
       {/* Contact Us */}
       <section className="py-20 bg-gray-100 container mx-auto text-center">
         <h2 className="text-3xl font-bold mb-6 text-red-500">Contact Us</h2>
@@ -66,8 +72,10 @@ const Home = () => {
           <button className="btn btn-primary w-full">Send Message</button>
         </form>
       </section>
-
+     
+      {/* footer section */}
       <Footer />
+
     </div>
   );
 };
