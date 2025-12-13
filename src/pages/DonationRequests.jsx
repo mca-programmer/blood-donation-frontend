@@ -49,7 +49,7 @@ const DonationRequests = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="bg-gray-800 text-white py-12">
+      <section className="bg-gray-800 container mx-auto text-white py-12">
         <div className="container mx-auto text-center px-4">
           <h1 className="text-4xl font-bold mb-4">🩸 Blood Donation Requests</h1>
           <p className="text-xl">Help save lives by donating blood to those in need</p>
@@ -122,7 +122,7 @@ const DonationRequests = () => {
         ) : requests.length ? (
           <>
             <div className="mb-6">
-              <h2 className="text-2xl font-bold text-gray-800">
+              <h2 className="text-3xl font-bold text-center text-white">
                 Found {requests.length} Request{requests.length !== 1 ? 's' : ''}
               </h2>
             </div>

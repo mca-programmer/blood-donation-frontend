@@ -85,7 +85,7 @@ const Profile = () => {
             )}
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-4 text-gray-500">
             {/* Avatar */}
             <div>
               <label className="label">
@@ -133,11 +133,11 @@ const Profile = () => {
               <input
                 type="email"
                 value={form.email}
-                className="input input-bordered w-full bg-gray-100"
+                className="input input-bordered w-full "
                 disabled
               />
               <label className="label">
-                <span className="label-text-alt text-gray-500">
+                <span className="label-text-alt">
                   Email cannot be changed
                 </span>
               </label>
@@ -214,7 +214,7 @@ const Profile = () => {
               <input
                 type="text"
                 value={user?.role || "donor"}
-                className="input input-bordered w-full bg-gray-100"
+                className="input input-bordered w-full"
                 disabled
               />
             </div>
@@ -227,8 +227,8 @@ const Profile = () => {
               <input
                 type="text"
                 value={user?.status || "active"}
-                className={`input input-bordered w-full ${
-                  user?.status === "active" ? "bg-green-50" : "bg-red-50"
+                className={`input text-gray-800 text-center input-bordered w-full ${
+                  user?.status === "active" ? "bg-green-500" : "bg-red-50"
                 }`}
                 disabled
               />
