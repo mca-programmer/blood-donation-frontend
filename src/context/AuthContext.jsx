@@ -1,9 +1,9 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 // Firebase imports
-import app from "../firebase/firebase.jsx"; // firebase.jsx
+import app from "../firebase/firebase.jsx";
 import {
   getAuth,
   onAuthStateChanged,
@@ -37,36 +37,58 @@ export const AuthProvider = ({ children }) => {
 
   const [loading, setLoading] = useState(false);
 
-  // Axios instance for backend APIs
-  const axiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_API_URL, // Vite env variable
-  });
+  // ✅ FIX: Create axios instance ONCE with useMemo
+  const axiosInstance = useMemo(() => {
+    const instance = axios.create({
+      baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
+    });
 
-  // Set token in axios headers if available
-  useEffect(() => {
-    if (user?.token) {
-      axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
-    } else {
-      delete axiosInstance.defaults.headers.common["Authorization"];
+    // Set token from localStorage immediately
+    const token = localStorage.getItem("token");
+    if (token) {
+      instance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     }
-  }, [user]);
+
+    // Add request interceptor to always get fresh token
+    instance.interceptors.request.use(
+      (config) => {
+        const token = localStorage.getItem("token");
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
+      }
+    );
+
+    // Add response interceptor for error handling
+    instance.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response?.status === 401) {
+          // Token expired or invalid
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          // Don't navigate here, let the component handle it
+        }
+        return Promise.reject(error);
+      }
+    );
+
+    return instance;
+  }, []); // Empty dependency - create only once
 
   // Listen to Firebase auth state changes
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      if (firebaseUser) {
-        setUser((prev) => ({
-          ...prev,
-          uid: firebaseUser.uid,
-          email: firebaseUser.email,
-          displayName: firebaseUser.displayName,
-        }));
-      } else {
-        setUser(null);
+      if (firebaseUser && !user) {
+        // Optionally sync with backend if needed
       }
     });
     return () => unsubscribe();
-  }, []);
+  }, [user]);
 
   // -------------------------
   // Email/Password Register
@@ -92,13 +114,17 @@ export const AuthProvider = ({ children }) => {
         bloodGroup,
         district,
         upazila,
-        avatar,
+        avatar: avatar || userCredential.user.photoURL,
       });
 
-      // 3️⃣ Combine backend + firebase data
-      const combinedUser = { ...res.data, uid: userCredential.user.uid };
-      setUser(combinedUser);
-      localStorage.setItem("user", JSON.stringify(combinedUser));
+      // 3️⃣ Store token and user
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      
+      // Update axios headers
+      axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${res.data.token}`;
+      
+      setUser(res.data.user);
 
       navigate("/dashboard");
       alert("Registration Successful!");
@@ -117,17 +143,22 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       setLoading(true);
+      
+      // 1️⃣ Firebase authentication
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
 
-      const res = await axiosInstance.post("/auth/login", { email });
+      // 2️⃣ Backend login with email AND password
+      const res = await axiosInstance.post("/auth/login", { email, password });
 
-      const combinedUser = {
-        ...res.data,
-        uid: userCredential.user.uid,
-        displayName: userCredential.user.displayName,
-      };
-      setUser(combinedUser);
-      localStorage.setItem("user", JSON.stringify(combinedUser));
+      // 3️⃣ Store token and user
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      
+      // Update axios headers
+      axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${res.data.token}`;
+      
+      setUser(res.data.user);
+
       navigate("/dashboard");
     } catch (err) {
       console.error("Login Error:", err.response?.data?.message || err.message);
@@ -144,19 +175,27 @@ export const AuthProvider = ({ children }) => {
   const loginWithGoogle = async () => {
     try {
       setLoading(true);
+      
+      // 1️⃣ Firebase Google Sign-In
       const result = await signInWithPopup(auth, googleProvider);
       const firebaseUser = result.user;
 
-      // Optionally send firebase user to backend
+      // 2️⃣ Send to backend
       const res = await axiosInstance.post("/auth/google-login", {
         email: firebaseUser.email,
         displayName: firebaseUser.displayName,
         uid: firebaseUser.uid,
       });
 
-      const combinedUser = { ...res.data, uid: firebaseUser.uid, displayName: firebaseUser.displayName };
-      setUser(combinedUser);
-      localStorage.setItem("user", JSON.stringify(combinedUser));
+      // 3️⃣ Store token and user
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      
+      // Update axios headers
+      axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${res.data.token}`;
+      
+      setUser(res.data.user);
+
       navigate("/dashboard");
     } catch (err) {
       console.error("Google Login Error:", err.message);
@@ -174,6 +213,11 @@ export const AuthProvider = ({ children }) => {
     await signOut(auth);
     setUser(null);
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    
+    // Remove token from axios headers
+    delete axiosInstance.defaults.headers.common["Authorization"];
+    
     navigate("/login");
   };
 
@@ -183,13 +227,18 @@ export const AuthProvider = ({ children }) => {
   const updateProfile = async (updatedData) => {
     try {
       if (updatedData.displayName && auth.currentUser) {
-        await firebaseUpdateProfile(auth.currentUser, { displayName: updatedData.displayName });
+        await firebaseUpdateProfile(auth.currentUser, { 
+          displayName: updatedData.displayName 
+        });
       }
 
       const res = await axiosInstance.put(`/users/${user._id}`, updatedData);
-      setUser(res.data);
-      localStorage.setItem("user", JSON.stringify(res.data));
-      return res.data;
+      
+      const updatedUser = res.data;
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      setUser(updatedUser);
+      
+      return updatedUser;
     } catch (err) {
       console.error("Update Profile Error:", err.response?.data?.message || err.message);
       throw err;

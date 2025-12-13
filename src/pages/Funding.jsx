@@ -1,24 +1,26 @@
-// src/pages/Funding.jsx
 import React, { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import { useAuth } from "../context/AuthContext";
-import axios from "axios";
+import { ENDPOINTS } from "../api/endpoints";
 
 const Funding = () => {
-  const { axiosInstance, user } = useAuth();
+  const { axiosInstance } = useAuth();
   const [funds, setFunds] = useState([]);
   const [amount, setAmount] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    let isMounted = true;
     const fetchFunds = async () => {
       try {
-        const res = await axiosInstance.get("/funds");
-        setFunds(res.data);
+        const res = await axiosInstance.get(ENDPOINTS.funding.all());
+        if (isMounted) setFunds(res.data);
       } catch (err) {
         console.error(err);
       }
     };
     fetchFunds();
+    return () => { isMounted = false; };
   }, [axiosInstance]);
 
   const handleGiveFund = async () => {
@@ -26,16 +28,17 @@ const Funding = () => {
       alert("Enter a valid amount");
       return;
     }
-
+    setLoading(true);
     try {
-      // Stripe payment logic can be integrated here
-      const res = await axiosInstance.post("/funds", { userId: user._id, amount });
+      const res = await axiosInstance.post(ENDPOINTS.funding.giveFund(), { amount });
       setFunds([res.data, ...funds]);
       setAmount("");
       alert("Thank you for your contribution!");
     } catch (err) {
       console.error(err);
       alert("Failed to give fund");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -55,7 +58,9 @@ const Funding = () => {
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
-            <button className="btn btn-primary" onClick={handleGiveFund}>Donate</button>
+            <button className="btn btn-primary" onClick={handleGiveFund} disabled={loading}>
+              {loading ? "Processing..." : "Donate"}
+            </button>
           </div>
         </div>
 
@@ -74,8 +79,8 @@ const Funding = () => {
                 {funds.length ? funds.map(f => (
                   <tr key={f._id}>
                     <td>{f.userName}</td>
-                    <td>${f.amount}</td>
-                    <td>{new Date(f.createdAt).toLocaleDateString()}</td>
+                    <td>${f.amount.toFixed(2)}</td>
+                    <td>{new Date(f.createdAt).toLocaleString()}</td>
                   </tr>
                 )) : (
                   <tr>
