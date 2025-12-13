@@ -25,7 +25,7 @@ const Search = () => {
     <div>
       <Navbar />
       <section className="container mx-auto py-12">
-        <h2 className="text-3xl font-bold mb-6 text-center">Search Donors</h2>
+        <h2 className="text-3xl text-red-500 font-bold mb-6 text-center">Search Donors</h2>
         <form onSubmit={handleSearch} className="grid md:grid-cols-4 gap-4 mb-8">
           <select className="select select-bordered" 
                   value={filters.bloodGroup} 

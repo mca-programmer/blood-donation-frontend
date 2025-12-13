@@ -21,7 +21,7 @@ answer:
 
 
 return (
-<section className="py-16 bg-white">
+<section className="py-16 bg-white container mx-auto text-center">
 <div className="max-w-5xl mx-auto px-4">
 <h2 className="text-3xl font-bold text-center text-red-600 mb-10">
 Frequently Asked Questions

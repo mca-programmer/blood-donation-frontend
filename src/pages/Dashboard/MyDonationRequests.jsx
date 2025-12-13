@@ -15,9 +15,7 @@ const MyDonationRequests = () => {
   const fetchRequests = async () => {
     setLoading(true);
     try {
-      const res = await axiosInstance.get(
-        `/donation-requests/my?page=${currentPage}`
-      );
+      const res = await axiosInstance.get(`/donation-requests/my?page=${currentPage}`);
       setRequests(res.data.requests);
       setTotalPages(res.data.totalPages);
     } catch (err) {
@@ -36,38 +34,83 @@ const MyDonationRequests = () => {
     setCurrentPage(page);
   };
 
+  const handleDelete = async (id) => {
+    if (!confirm("Are you sure you want to delete this donation request?")) {
+      return;
+    }
+
+    try {
+      await axiosInstance.delete(`/donation-requests/${id}`);
+      alert("Request deleted successfully!");
+      // Refresh the list
+      fetchRequests();
+    } catch (err) {
+      console.error(err);
+      alert(err.response?.data?.message || "Failed to delete request");
+    }
+  };
+
+  const handleEdit = (donation) => {
+    // Navigate to edit page or open modal
+    alert(`Edit functionality for ${donation.recipientName} - Coming soon!`);
+    // You can implement edit modal or redirect to edit page
+  };
+
   return (
     <div className="flex min-h-screen">
       <Sidebar />
       <main className="flex-1 p-6 bg-gray-100">
-        <h2 className="text-2xl font-bold text-red-600 mb-6">
-          My Donation Requests
-        </h2>
-
+        <div className="mb-6">
+          <h2 className="text-3xl font-bold text-red-600">My Donation Requests</h2>
+          <p className="text-gray-600 mt-2">
+            Manage your blood donation requests
+          </p>
+        </div>
+        
         {loading ? (
-          <div className="text-center py-10">
-            <span className="loading loading-spinner loading-lg"></span>
+          <div className="text-center py-20">
+            <span className="loading loading-spinner loading-lg text-primary"></span>
+            <p className="mt-4 text-gray-600">Loading your requests...</p>
           </div>
         ) : (
           <>
-            <div className="grid md:grid-cols-3 gap-6">
-              {requests.length ? (
-                requests.map((req) => (
-                  <DonationCard key={req._id} donation={req} />
-                ))
-              ) : (
-                <p className="col-span-3 text-center text-gray-500">
-                  No donation requests found. Create your first request!
+            {requests.length ? (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {requests.map(req => (
+                  <DonationCard 
+                    key={req._id} 
+                    donation={req}
+                    onDelete={handleDelete}
+                    onEdit={handleEdit}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-20 bg-white rounded-lg shadow">
+                <div className="text-6xl mb-4">🩸</div>
+                <h3 className="text-2xl font-bold text-gray-700 mb-2">
+                  No Donation Requests Yet
+                </h3>
+                <p className="text-gray-500 mb-6">
+                  Create your first blood donation request to help those in need
                 </p>
-              )}
-            </div>
-
+                <a 
+                  href="/dashboard/create-donation-request"
+                  className="btn btn-primary"
+                >
+                  Create Request
+                </a>
+              </div>
+            )}
+            
             {totalPages > 1 && (
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-              />
+              <div className="mt-8">
+                <Pagination 
+                  currentPage={currentPage} 
+                  totalPages={totalPages} 
+                  onPageChange={handlePageChange} 
+                />
+              </div>
             )}
           </>
         )}

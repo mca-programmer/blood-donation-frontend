@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -37,28 +37,42 @@ export const AuthProvider = ({ children }) => {
 
   const [loading, setLoading] = useState(false);
 
-  // Axios instance for backend APIs
-  const axiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
-  });
+  // ✅ FIX: Create axios instance ONCE using useMemo
+  const axiosInstance = useMemo(() => {
+    const instance = axios.create({
+      baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
+    });
 
-  // ✅ FIX: Set token IMMEDIATELY when component mounts
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    }
-  }, []); // Empty dependency - runs once on mount
+    // ✅ Request Interceptor - Always add fresh token from localStorage
+    instance.interceptors.request.use(
+      (config) => {
+        const token = localStorage.getItem("token");
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
+      }
+    );
 
-  // ✅ FIX: Also update token when user changes
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    } else {
-      delete axiosInstance.defaults.headers.common["Authorization"];
-    }
-  }, [user]);
+    // ✅ Response Interceptor - Handle 401 errors
+    instance.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response?.status === 401) {
+          // Token expired or invalid
+          console.error("401 Unauthorized - Clearing auth data");
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+        }
+        return Promise.reject(error);
+      }
+    );
+
+    return instance;
+  }, []); // Empty array - create only ONCE
 
   // Listen to Firebase auth state changes
   useEffect(() => {
@@ -68,7 +82,7 @@ export const AuthProvider = ({ children }) => {
       }
     });
     return () => unsubscribe();
-  }, []);
+  }, [user]);
 
   // -------------------------
   // Email/Password Register
@@ -101,9 +115,6 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
       
-      // ✅ FIX: Set token in axios headers immediately
-      axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${res.data.token}`;
-      
       setUser(res.data.user);
 
       navigate("/dashboard");
@@ -133,9 +144,6 @@ export const AuthProvider = ({ children }) => {
       // 3️⃣ Store token and user
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
-      
-      // ✅ FIX: Set token in axios headers immediately
-      axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${res.data.token}`;
       
       setUser(res.data.user);
 
@@ -171,9 +179,6 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
       
-      // ✅ FIX: Set token in axios headers immediately
-      axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${res.data.token}`;
-      
       setUser(res.data.user);
 
       navigate("/dashboard");
@@ -194,9 +199,6 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-    
-    // ✅ FIX: Remove token from axios headers
-    delete axiosInstance.defaults.headers.common["Authorization"];
     
     navigate("/login");
   };

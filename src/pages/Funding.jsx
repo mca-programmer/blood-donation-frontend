@@ -64,9 +64,9 @@ const Funding = () => {
           </div>
         </div>
 
-        <div className="card p-6 shadow-lg">
+        <div className="card p-6 shadow-lg ">
           <h3 className="text-xl font-semibold mb-4">All Fundings</h3>
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto ">
             <table className="table w-full">
               <thead>
                 <tr>
