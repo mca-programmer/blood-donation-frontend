@@ -49,7 +49,7 @@ const CreateDonationRequest = () => {
   return (
     <div className="flex min-h-screen">
       <Sidebar />
-      <main className="flex-1 p-6 bg-gray-100">
+      <main className="flex-1 p-6 bg-gray-100 text-gray-400">
         <h2 className="text-2xl font-bold text-indigo-600 mb-6">Create Donation Request</h2>
         <form onSubmit={handleSubmit} className="max-w-xl bg-white p-6 rounded-lg shadow space-y-4">
           
@@ -60,7 +60,7 @@ const CreateDonationRequest = () => {
               type="text" 
               value={user?.name || ""} 
               disabled 
-              className="input input-bordered w-full bg-gray-100" 
+              className="input input-bordered w-full text-gray-600 bg-gray-100" 
             />
           </div>
           
@@ -70,7 +70,7 @@ const CreateDonationRequest = () => {
               type="email" 
               value={user?.email || ""} 
               disabled 
-              className="input input-bordered w-full bg-gray-100" 
+              className="input input-bordered w-full text-gray-600 bg-gray-100" 
             />
           </div>
 

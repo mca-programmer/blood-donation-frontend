@@ -21,7 +21,7 @@ const AllBloodRequests = () => {
   return (
     <div className="flex min-h-screen">
       <Sidebar />
-      <main className="flex-1 p-6 bg-gray-100">
+      <main className="flex-1 p-6 text-gray-600 bg-gray-100">
         <h2 className="text-2xl font-bold mb-6">All Blood Donation Requests</h2>
         <div className="grid md:grid-cols-3 gap-6">
           {requests.length ? requests.map(req => (

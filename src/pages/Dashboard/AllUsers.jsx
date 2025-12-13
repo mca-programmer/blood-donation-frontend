@@ -36,12 +36,12 @@ const AllUsers = () => {
   return (
     <div className="flex min-h-screen">
       <Sidebar />
-      <main className="flex-1 p-6 bg-gray-100">
+      <main className="flex-1 p-6 bg-gray-100 text-gray-600">
         <h2 className="text-2xl font-bold mb-6">All Users</h2>
         <div className="overflow-x-auto">
           <table className="table w-full">
             <thead>
-              <tr>
+              <tr className="text-gray-600">
                 <th>Avatar</th><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Actions</th>
               </tr>
             </thead>

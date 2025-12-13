@@ -43,7 +43,7 @@ const DonationDetails = () => {
   return (
     <div>
       <Navbar />
-      <section className="container mx-auto py-12">
+      <section className="container mx-auto py-12 text-gray-600">
         <h2 className="text-3xl font-bold mb-6 text-center">Donation Request Details</h2>
         <div className="card shadow-md p-6 rounded-lg max-w-xl mx-auto">
           <p><strong>Recipient:</strong> {donation.recipientName}</p>
