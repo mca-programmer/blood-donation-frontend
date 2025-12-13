@@ -57,7 +57,7 @@ const DonationCard = ({ donation, showActions = true, onDelete, onEdit }) => {
   return (
     <div className="card bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-lg overflow-hidden">
       {/* Card Header */}
-      <div className="bg-gradient-to-r from-red-500 to-pink-500 p-4 text-white">
+      <div className="bg-gradient-to-r from-pink-500 to-red-500 p-4 text-white">
         <div className="flex justify-between items-start">
           <div>
             <h3 className="font-bold text-xl mb-1">{donation.recipientName}</h3>
@@ -136,7 +136,7 @@ const DonationCard = ({ donation, showActions = true, onDelete, onEdit }) => {
         <div className="p-4 bg-gray-50 border-t flex gap-2 justify-between items-center">
           <Link
             to={`/donation/${donation._id}`}
-            className="btn btn-sm btn-primary flex-1"
+            className="btn btn-sm btn-primary hover:bg-red-500 flex-1"
           >
             View Details
           </Link>

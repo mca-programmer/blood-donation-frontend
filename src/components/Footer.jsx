@@ -8,6 +8,7 @@ import {
   Heart,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import Logo from "../assets/Blood logo.png";
 
 export default function Footer() {
   return (
@@ -17,9 +18,17 @@ export default function Footer() {
         <div className="grid gap-10 md:grid-cols-4">
           {/* Brand */}
           <div>
-            <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-              <Heart className="text-red-500" /> BloodDonate
-            </h2>
+            {/* Logo + Brand */}
+                   <Link to="/" className="flex items-center gap-2">
+                     <img
+                       src={Logo}   
+                       alt="BloodDonate Logo"
+                       className="w-9 h-9"
+                     />
+                     <span className="text-2xl font-bold text-red-600">
+                       BloodDonate
+                     </span>
+                   </Link>
             <p className="text-sm leading-relaxed">
               BloodDonate is a community-driven platform connecting donors with
               patients to save lives faster and safer.

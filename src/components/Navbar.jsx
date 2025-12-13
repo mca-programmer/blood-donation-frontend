@@ -2,15 +2,26 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import Logo from "../assets/Blood logo.png";
+
 
 const Navbar = () => {
   const { user, logout } = useAuth();
 
   return (
     <nav className="bg-white text-red-400 container mx-auto shadow-md px-6 py-4 flex justify-between items-center">
-      <Link to="/" className="text-2xl font-bold text-red-600">
-        BloodDonate
-      </Link>
+        {/* Logo + Brand */}
+        <Link to="/" className="flex items-center gap-2">
+          <img
+            src={Logo}   
+            alt="BloodDonate Logo"
+            className="w-9 h-9"
+          />
+          <span className="text-2xl font-bold text-red-600">
+            BloodDonate
+          </span>
+        </Link>
+
 
       <ul className="flex items-center space-x-4">
         <li>
