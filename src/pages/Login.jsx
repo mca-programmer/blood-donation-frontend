@@ -28,7 +28,7 @@ const Login = () => {
   return (
     <div>
       <Navbar />
-      <div className="flex justify-center bg-gray-400 items-center h-screen">
+      <div className="flex justify-center bg-gray-50 items-center h-screen container mx-auto text-center">
         <form
           onSubmit={handleSubmit}
           className="card p-8 shadow-lg w-full max-w-md space-y-4 bg-white"
@@ -56,7 +56,7 @@ const Login = () => {
           />
 
           {/* Login Button */}
-          <button className="btn btn-primary w-full" disabled={loading}>
+          <button className="btn btn-primary w-full hover:bg-red-600 " disabled={loading}>
             Login
           </button>
 
@@ -75,7 +75,7 @@ const Login = () => {
 
           <p className="text-center text-red-400 mt-4">
             Don't have an account?{" "}
-            <Link to="/register" className="text-red-500">
+            <Link to="/register" className="text-primary">
               Register
             </Link>
           </p>

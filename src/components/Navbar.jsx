@@ -16,7 +16,7 @@ const Navbar = () => {
         <li>
           <Link
             to="/donation-requests"
-            className="btn btn-sm btn-primary hover:text-red-500"
+            className="btn btn-sm btn-primary hover:bg-red-600"
           >
             Requests
           </Link>
@@ -24,12 +24,12 @@ const Navbar = () => {
         {!user && (
           <>
             <li>
-              <Link to="/login" className="btn btn-sm btn-outline btn-primary">
+              <Link to="/login" className="btn btn-sm btn-outline btn-primary hover:bg-red-600">
                 Login
               </Link>
             </li>
             <li>
-              <Link to="/register" className="btn btn-sm btn-primary">
+              <Link to="/register" className="btn btn-sm btn-primary hover:bg-red-600">
                 Register
               </Link>
             </li>

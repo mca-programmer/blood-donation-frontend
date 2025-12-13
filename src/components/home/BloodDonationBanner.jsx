@@ -48,12 +48,12 @@ export default function BloodDonationBanner() {
                 </h1>
                 <p className="text-lg mb-6">{slide.desc}</p>
                 <div className="space-x-4">
-                  <Link to="/register" className="btn btn-primary">
+                  <Link to="/register" className="btn btn-primary hover:bg-red-600">
                     Join as Donor
                   </Link>
                   <Link
                     to="/search"
-                    className="btn btn-outline btn-primary text-white"
+                    className="btn btn-outline btn-primary hover:bg-red-600 text-white"
                   >
                     Search Donors
                   </Link>

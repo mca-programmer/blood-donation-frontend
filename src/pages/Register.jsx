@@ -39,7 +39,7 @@ const Register = () => {
   return (
     <div>
       <Navbar />
-      <div className="flex justify-center items-center h-screen bg-gray-400">
+      <div className="flex justify-center items-center h-screen bg-gray-50 container mx-auto text-center py-10">
         <form
           onSubmit={handleSubmit}
           className="card p-8 shadow-lg w-full max-w-md space-y-4 bg-white rounded-lg"
@@ -137,7 +137,7 @@ const Register = () => {
 
           <button
             type="submit"
-            className="btn btn-primary w-full"
+            className="btn btn-primary hover:bg-red-600 w-full"
             disabled={loading}
           >
             {loading ? "Registering..." : "Register"}
