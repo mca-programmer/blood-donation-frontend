@@ -55,7 +55,7 @@ const Profile = () => {
       <Sidebar />
       <main className="flex-1 p-6 bg-gray-100 text-gray-600">
         <div className="card max-w-xl mx-auto p-6 shadow-lg bg-white">
-          <h2 className="text-2xl text-red-600 font-bold mb-4">My Profile</h2>
+          <h2 className="text-2xl text-red-600 text-center font-bold mb-4">My Profile</h2>
 
           <div className="flex justify-between items-center mb-4">
             {!edit ? (

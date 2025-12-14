@@ -1,10 +1,11 @@
 // src/components/DonationCard.jsx
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const DonationCard = ({ donation, showActions = true, onDelete, onEdit }) => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   
   // Check if current user is the requester
   const isOwner = user?.email === donation.requesterEmail;
@@ -13,29 +14,22 @@ const DonationCard = ({ donation, showActions = true, onDelete, onEdit }) => {
   // Format date
   const formatDate = (dateString) => {
     if (!dateString) return "Not Set";
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-GB"); // DD/MM/YYYY format
-  };
-
-  // Format time
-  const formatTime = (timeString) => {
-    if (!timeString) return "Not Set";
-    return timeString;
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString("en-GB"); // DD/MM/YYYY format
+    } catch {
+      return dateString;
+    }
   };
 
   // Status badge color
   const getStatusBadge = (status) => {
     switch (status) {
-      case "pending":
-        return "badge-warning";
-      case "inprogress":
-        return "badge-info";
-      case "done":
-        return "badge-success";
-      case "canceled":
-        return "badge-error";
-      default:
-        return "badge-ghost";
+      case "pending": return "badge-warning";
+      case "inprogress": return "badge-info";
+      case "done": return "badge-success";
+      case "canceled": return "badge-error";
+      default: return "badge-ghost";
     }
   };
 
@@ -54,10 +48,15 @@ const DonationCard = ({ donation, showActions = true, onDelete, onEdit }) => {
     return colors[bloodGroup] || "bg-gray-100 text-gray-800";
   };
 
+  // ✅ Handle View Details - Navigate to details page
+  const handleViewDetails = () => {
+    navigate(`/donation/${donation._id}`);
+  };
+
   return (
     <div className="card bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-lg overflow-hidden">
       {/* Card Header */}
-      <div className="bg-gradient-to-r from-pink-500 to-red-500 p-4 text-white">
+      <div className="bg-gradient-to-r from-red-500 to-pink-500 p-4 text-white">
         <div className="flex justify-between items-start">
           <div>
             <h3 className="font-bold text-xl mb-1">{donation.recipientName}</h3>
@@ -85,7 +84,7 @@ const DonationCard = ({ donation, showActions = true, onDelete, onEdit }) => {
           <p className="text-sm text-gray-600 font-semibold">🏥 Hospital</p>
           <p className="font-medium text-gray-900">{donation.hospitalName || "Not Specified"}</p>
           {donation.fullAddress && (
-            <p className="text-xs text-gray-600 mt-1">{donation.fullAddress}</p>
+            <p className="text-xs text-gray-600 mt-1 truncate">{donation.fullAddress}</p>
           )}
         </div>
 
@@ -100,7 +99,7 @@ const DonationCard = ({ donation, showActions = true, onDelete, onEdit }) => {
           <div className="bg-green-50 p-3 rounded-lg">
             <p className="text-xs text-gray-600 font-semibold">⏰ Time</p>
             <p className="font-medium text-gray-900 text-sm">
-              {formatTime(donation.time)}
+              {donation.time || "Not Set"}
             </p>
           </div>
         </div>
@@ -134,12 +133,13 @@ const DonationCard = ({ donation, showActions = true, onDelete, onEdit }) => {
       {/* Card Footer - Actions */}
       {showActions && (
         <div className="p-4 bg-gray-50 border-t flex gap-2 justify-between items-center">
-          <Link
-            to={`/donation/${donation._id}`}
-            className="btn btn-sm btn-primary hover:bg-red-500 flex-1"
+          {/* ✅ View Details Button - Always visible */}
+          <button
+            onClick={handleViewDetails}
+            className="btn btn-sm btn-primary flex-1"
           >
             View Details
-          </Link>
+          </button>
 
           {/* Owner/Admin Actions */}
           {(isOwner || isAdmin) && donation.status === "pending" && (
@@ -166,13 +166,13 @@ const DonationCard = ({ donation, showActions = true, onDelete, onEdit }) => {
           )}
 
           {/* Donate Button for non-owners */}
-          {!isOwner && donation.status === "pending" && (
-            <Link
-              to={`/donation/${donation._id}`}
+          {!isOwner && donation.status === "pending" && user && (
+            <button
+              onClick={handleViewDetails}
               className="btn btn-sm btn-success"
             >
               🩸 Donate
-            </Link>
+            </button>
           )}
         </div>
       )}
