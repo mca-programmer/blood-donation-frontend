@@ -4,7 +4,7 @@ export const ENDPOINTS = {
   auth: {
     register: "/auth/register",
     login: "/auth/login",
-    googleLogin: "/auth/google-login", // ফিক্সড
+    googleLogin: "/auth/google-login", 
   },
   users: {
     all: "/users",
