@@ -42,7 +42,7 @@ const Navbar = () => {
               <li>
                 <Link
                   to="/login"
-                  className="btn btn-sm btn-outline border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
+                  className="btn btn-sm btn-outline border-primary text-blue-600 hover:bg-blue-600 hover:text-white"
                 >
                   Login
                 </Link>
@@ -51,7 +51,7 @@ const Navbar = () => {
               <li>
                 <Link
                   to="/register"
-                  className="btn btn-sm bg-blue-600 text-white hover:bg-blue-700 border-none"
+                  className="btn btn-sm btn-primary text-white hover:bg-blue-700 border-none"
                 >
                   Register
                 </Link>
