@@ -60,7 +60,7 @@ export default function ContactUsSection() {
                 ></textarea>
               </div>
 
-              <button className="btn btn-primary w-full flex items-center gap-2">
+              <button className="btn btn-primary hover:bg-red-500 w-full flex items-center gap-2">
                 <Send size={18} /> Send Message
               </button>
             </form>

@@ -45,7 +45,7 @@ const Funding = () => {
   return (
     <div className="flex min-h-screen">
       <Sidebar />
-      <main className="flex-1 p-6 bg-gray-100">
+      <main className="flex-1 p-6 text-gray-600 bg-red-50">
         <h2 className="text-2xl font-bold mb-6">Funding Page</h2>
 
         <div className="card max-w-md p-6 shadow-lg mb-6">
@@ -54,11 +54,11 @@ const Funding = () => {
             <input
               type="number"
               placeholder="Amount in USD"
-              className="input input-bordered flex-1"
+              className="input input-bordered flex-1 text-white"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
-            <button className="btn btn-primary" onClick={handleGiveFund} disabled={loading}>
+            <button className="btn btn-primary hover:bg-red-500" onClick={handleGiveFund} disabled={loading}>
               {loading ? "Processing..." : "Donate"}
             </button>
           </div>
@@ -67,9 +67,9 @@ const Funding = () => {
         <div className="card p-6 shadow-lg ">
           <h3 className="text-xl font-semibold mb-4">All Fundings</h3>
           <div className="overflow-x-auto ">
-            <table className="table w-full">
+            <table className="table w-full  ">
               <thead>
-                <tr>
+                <tr className="text-gray-600">
                   <th>User</th>
                   <th>Amount</th>
                   <th>Date</th>

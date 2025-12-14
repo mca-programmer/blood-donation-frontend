@@ -17,7 +17,7 @@ const Sidebar = () => {
   if (user?.role === "admin") {
     links.push({ path: "/dashboard/all-users", label: "All Users" });
     links.push({ path: "/dashboard/all-blood-requests", label: "All Requests" });
-    links.push({ path: "/dashboard/funding", label: "Funding" });
+    links.push({ path: "/funding", label: "Funding" });
   }
 
   return (
