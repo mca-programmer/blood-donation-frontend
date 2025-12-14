@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { FcGoogle } from "react-icons/fc";
+import Footer from "../components/Footer";
 
 const Login = () => {
   const { login, loginWithGoogle, loading } = useAuth();
@@ -28,12 +29,13 @@ const Login = () => {
   return (
     <div>
       <Navbar />
+      
       <div className="flex justify-center bg-gray-50 items-center h-screen container mx-auto text-center">
         <form
           onSubmit={handleSubmit}
           className="card p-8 shadow-lg w-full max-w-md space-y-4 bg-white"
         >
-          <h2 className="text-2xl font-bold text-red-500 text-center">Login</h2>
+          <h2 className="text-2xl font-bold text-red-500 text-center">BloodDonate Login Now!</h2>
 
           {/* Email Input */}
           <input
@@ -81,6 +83,8 @@ const Login = () => {
           </p>
         </form>
       </div>
+
+      <Footer/>
     </div>
   );
 };

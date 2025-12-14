@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const Register = () => {
   const { register, loading } = useAuth();
@@ -39,13 +40,14 @@ const Register = () => {
   return (
     <div>
       <Navbar />
+      
       <div className="flex justify-center items-center h-screen bg-gray-50 container mx-auto text-center py-10">
         <form
           onSubmit={handleSubmit}
           className="card p-8 shadow-lg w-full max-w-md space-y-4 bg-white rounded-lg"
         >
           <h2 className="text-2xl text-red-500 font-bold text-center">
-            Register
+           BloodDonate Register Now!
           </h2>
 
           <input
@@ -144,6 +146,8 @@ const Register = () => {
           </button>
         </form>
       </div>
+
+      <Footer/>
     </div>
   );
 };
