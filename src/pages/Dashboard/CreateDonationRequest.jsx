@@ -57,7 +57,7 @@ const CreateDonationRequest = () => {
           className="max-w-3xl mx-auto bg-gradient-to-br from-red-50 via-red-100 to-white p-8 rounded-3xl shadow-2xl space-y-6"
         >
           {/* Requester Info */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 text-gray-600 gap-4">
             <div>
               <label className="label font-semibold">Requester Name</label>
               <input
@@ -79,7 +79,7 @@ const CreateDonationRequest = () => {
           </div>
 
           {/* Recipient Info */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 text-gray-600 md:grid-cols-2 gap-4">
             <div>
               <label className="label font-semibold">Recipient Name *</label>
               <input
