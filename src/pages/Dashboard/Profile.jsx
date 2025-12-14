@@ -26,7 +26,6 @@ const Profile = () => {
         bloodGroup: form.bloodGroup,
         avatar: form.avatar,
       });
-
       setEdit(false);
       alert("Profile updated successfully!");
     } catch (err) {
@@ -38,7 +37,6 @@ const Profile = () => {
   };
 
   const handleCancel = () => {
-    // Reset form to original user data
     setForm({
       name: user?.name || "",
       email: user?.email || "",
@@ -51,31 +49,35 @@ const Profile = () => {
   };
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen bg-gray-100">
       <Sidebar />
-      <main className="flex-1 p-6 bg-gray-100 text-gray-600">
-        <div className="card max-w-xl mx-auto p-6 shadow-lg bg-white">
-          <h2 className="text-2xl text-red-600 text-center font-bold mb-4">My Profile</h2>
 
-          <div className="flex justify-between items-center mb-4">
+      <main className="flex-1 p-6">
+        <div className="max-w-2xl mx-auto bg-gradient-to-br from-red-50 via-red-100 to-white p-6 rounded-3xl shadow-xl transform transition hover:scale-105">
+          <h2 className="text-3xl font-bold text-red-600 text-center mb-6">
+            My Profile
+          </h2>
+
+          {/* Edit / Save Buttons */}
+          <div className="flex justify-end mb-6">
             {!edit ? (
               <button
-                className="btn btn-sm btn-primary"
+                className="btn btn-sm bg-red-500 text-white hover:bg-red-600"
                 onClick={() => setEdit(true)}
               >
                 Edit Profile
               </button>
             ) : (
-              <div className="space-x-2">
+              <div className="flex gap-2">
                 <button
-                  className="btn btn-sm btn-success"
+                  className="btn btn-sm bg-green-500 text-white hover:bg-green-600"
                   onClick={handleSave}
                   disabled={loading}
                 >
-                  {loading ? "Saving..." : "Save Changes"}
+                  {loading ? "Saving..." : "Save"}
                 </button>
                 <button
-                  className="btn btn-sm btn-outline"
+                  className="btn btn-sm btn-outline hover:text-white text-gray-800"
                   onClick={handleCancel}
                   disabled={loading}
                 >
@@ -85,37 +87,36 @@ const Profile = () => {
             )}
           </div>
 
-          <div className="space-y-4 text-gray-500">
-            {/* Avatar */}
-            <div>
-              <label className="label">
-                <span className="label-text">Avatar URL</span>
-              </label>
+          {/* Avatar */}
+          <div className="flex flex-col items-center mb-6">
+            {form.avatar ? (
+              <img
+                src={form.avatar}
+                alt="Avatar"
+                className="w-24 h-24 rounded-full object-cover shadow-md"
+                onError={(e) => (e.target.src = "/default-avatar.png")}
+              />
+            ) : (
+              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-red-500 to-red-700 text-white flex items-center justify-center text-3xl font-bold shadow-md">
+                {form.name ? form.name.charAt(0).toUpperCase() : "U"}
+              </div>
+            )}
+            {edit && (
               <input
                 type="text"
                 value={form.avatar}
                 onChange={(e) => setForm({ ...form, avatar: e.target.value })}
-                className="input input-bordered w-full"
-                disabled={!edit}
-                placeholder="Enter image URL"
+                placeholder="Avatar URL"
+                className="mt-3 input input-bordered w-full text-gray-100"
               />
-              {form.avatar && (
-                <div className="mt-2">
-                  <img
-                    src={form.avatar}
-                    alt="Avatar preview"
-                    className="w-20 h-20 rounded-full object-cover"
-                    onError={(e) => (e.target.src = "/default-avatar.png")}
-                  />
-                </div>
-              )}
-            </div>
+            )}
+          </div>
 
+          {/* Profile Form */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-100">
             {/* Name */}
             <div>
-              <label className="label">
-                <span className="label-text">Name</span>
-              </label>
+              <label className="label">Name</label>
               <input
                 type="text"
                 value={form.name}
@@ -125,29 +126,21 @@ const Profile = () => {
               />
             </div>
 
-            {/* Email (Read Only) */}
+            {/* Email */}
             <div>
-              <label className="label">
-                <span className="label-text">Email</span>
-              </label>
+              <label className="label">Email</label>
               <input
                 type="email"
                 value={form.email}
-                className="input input-bordered w-full "
                 disabled
+                className="input input-bordered w-full bg-gray-600"
               />
-              <label className="label">
-                <span className="label-text-alt">
-                  Email cannot be changed
-                </span>
-              </label>
+              <span className="text-xs text-gray-500">Cannot change email</span>
             </div>
 
             {/* Blood Group */}
             <div>
-              <label className="label">
-                <span className="label-text">Blood Group</span>
-              </label>
+              <label className="label">Blood Group</label>
               {edit ? (
                 <select
                   className="select select-bordered w-full"
@@ -170,67 +163,59 @@ const Profile = () => {
                 <input
                   type="text"
                   value={form.bloodGroup}
-                  className="input input-bordered w-full"
                   disabled
+                  className="input input-bordered w-full"
                 />
               )}
             </div>
 
             {/* District */}
             <div>
-              <label className="label">
-                <span className="label-text">District</span>
-              </label>
+              <label className="label">District</label>
               <input
                 type="text"
                 value={form.district}
                 onChange={(e) => setForm({ ...form, district: e.target.value })}
                 className="input input-bordered w-full"
                 disabled={!edit}
-                placeholder="e.g. Dhaka"
               />
             </div>
 
             {/* Upazila */}
             <div>
-              <label className="label">
-                <span className="label-text">Upazila</span>
-              </label>
+              <label className="label">Upazila</label>
               <input
                 type="text"
                 value={form.upazila}
                 onChange={(e) => setForm({ ...form, upazila: e.target.value })}
                 className="input input-bordered w-full"
                 disabled={!edit}
-                placeholder="e.g. Mirpur"
               />
             </div>
 
-            {/* Role (Read Only) */}
+            {/* Role */}
             <div>
-              <label className="label">
-                <span className="label-text">Role</span>
-              </label>
+              <label className="label">Role</label>
               <input
                 type="text"
                 value={user?.role || "donor"}
-                className="input input-bordered w-full"
                 disabled
+                className="input input-bordered w-full bg-gray-600"
               />
             </div>
 
-            {/* Status (Read Only) */}
+            {/* Status */}
             <div>
-              <label className="label">
-                <span className="label-text">Account Status</span>
-              </label>
+              <label className="label">Account Status</label>
               <input
                 type="text"
                 value={user?.status || "active"}
-                className={`input text-gray-800 text-center input-bordered w-full ${
-                  user?.status === "active" ? "bg-green-500" : "bg-red-50"
-                }`}
                 disabled
+                className={`input text-center w-full ${
+                  user?.status === "active"
+                    ? "bg-green-500 text-white"
+                    : "bg-red-100 text-red-600"
+                }`}
               />
             </div>
           </div>
