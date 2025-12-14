@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 
 // Public Pages
 import Home from "../pages/Home";
+import About from "../pages/About";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Search from "../pages/Search";
@@ -37,6 +38,7 @@ const AppRoutes = () => {
     <Routes>
       {/* ==================== PUBLIC ROUTES ==================== */}
       <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/search" element={<Search />} />
