@@ -113,7 +113,7 @@ const Profile = () => {
           </div>
 
           {/* Profile Form */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-100">
+          <div className="grid grid-cols-1 sm:grid-cols-2 text-gray-600 gap-4 text-gray-100">
             {/* Name */}
             <div>
               <label className="label">Name</label>
