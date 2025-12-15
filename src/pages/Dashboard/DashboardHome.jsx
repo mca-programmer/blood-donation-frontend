@@ -1,8 +1,8 @@
-// src/pages/Dashboard/DashboardHome.jsx
 import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar";
 import StatsCard from "../../components/StatsCard";
 import { useAuth } from "../../context/AuthContext";
+import Loading from "../../components/Loading"; 
 
 const DashboardHome = () => {
   const { axiosInstance, user } = useAuth();
@@ -11,7 +11,7 @@ const DashboardHome = () => {
     totalFunds: 0,
     totalRequests: 0,
   });
-  const [loading, setLoading] = useState(true);
+  const [loadingStats, setLoadingStats] = useState(true);
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -21,7 +21,7 @@ const DashboardHome = () => {
       } catch (err) {
         console.error("Failed to fetch stats:", err);
       } finally {
-        setLoading(false);
+        setLoadingStats(false);
       }
     };
     fetchStats();
@@ -29,11 +29,9 @@ const DashboardHome = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      {/* Sidebar */}
       <Sidebar />
 
-      {/* Main Content */}
-      <main className="flex-1 p-6">
+      <main className="flex-1 p-6 lg:p-10">
         {/* Welcome */}
         <div className="mb-8 text-center md:text-left">
           <h1 className="text-3xl font-bold text-red-600 mb-2">
@@ -45,10 +43,8 @@ const DashboardHome = () => {
         </div>
 
         {/* Stats */}
-        {loading ? (
-          <div className="text-center py-10">
-            <span className="loading loading-spinner loading-lg"></span>
-          </div>
+        {loadingStats ? (
+          <Loading text="Fetching dashboard stats..." />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-gray-400 mb-8">
             <StatsCard
@@ -67,7 +63,7 @@ const DashboardHome = () => {
               title="Blood Requests"
               count={stats.totalRequests}
               icon="🩸"
-              gradient="bg-gradient-to-r from-red-600 to-red-700 text-whit"
+              gradient="bg-gradient-to-r from-red-600 to-red-700 text-white"
             />
           </div>
         )}
@@ -121,67 +117,72 @@ const DashboardHome = () => {
           <h2 className="text-xl text-center font-bold text-red-600 mb-4">
             Your Information
           </h2>
-          <div className="max-w-md mx-auto bg-gradient-to-r from-red-100 via-red-50 to-white p-6 rounded-2xl shadow-xl transform transition duration-500 hover:scale-105 hover:shadow-2xl">
-            {/* User Info */}
-            <div className="flex items-center gap-4 mb-6">
-              {user?.avatar ? (
-                <img
-                  src={user.avatar}
-                  alt={user.name}
-                  className="w-16 h-16 rounded-full object-cover border-2 border-red-500 shadow-sm"
-                  onError={(e) => (e.target.src = "/default-avatar.png")}
-                />
-              ) : (
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-red-500 to-red-700 text-white flex items-center justify-center font-bold text-xl border-2 border-red-600 shadow-inner">
-                  {user?.name
-                    ? user.name.charAt(0).toUpperCase()
-                    : user?.email.charAt(0).toUpperCase()}
-                </div>
-              )}
-              <div>
-                <h3 className="font-bold text-lg text-gray-800">
-                  {user?.name || "Anonymous"}
-                </h3>
-                <p className="text-sm text-gray-600">
-                  {user?.email || "Not Provided"}
-                </p>
-              </div>
-            </div>
 
-            {/* User Details */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="bg-white/70 p-4 rounded-lg shadow-sm hover:shadow-md transition">
-                <p className="text-sm text-gray-600">Blood Group</p>
-                <p className="font-semibold text-gray-800">
-                  {user?.bloodGroup || "Not Set"}
-                </p>
+          {!user ? (
+            <Loading text="Loading user info..." />
+          ) : (
+            <div className="max-w-md mx-auto bg-gradient-to-r from-red-100 via-red-50 to-white p-6 rounded-2xl shadow-xl transform transition duration-500 hover:scale-105 hover:shadow-2xl">
+              {/* User Info */}
+              <div className="flex items-center gap-4 mb-6">
+                {user?.avatar ? (
+                  <img
+                    src={user.avatar}
+                    alt={user.name}
+                    className="w-16 h-16 rounded-full object-cover border-2 border-red-500 shadow-sm"
+                    onError={(e) => (e.target.src = "/default-avatar.png")}
+                  />
+                ) : (
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-red-500 to-red-700 text-white flex items-center justify-center font-bold text-xl border-2 border-red-600 shadow-inner">
+                    {user?.name
+                      ? user.name.charAt(0).toUpperCase()
+                      : user?.email.charAt(0).toUpperCase()}
+                  </div>
+                )}
+                <div>
+                  <h3 className="font-bold text-lg text-gray-800">
+                    {user?.name || "Anonymous"}
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    {user?.email || "Not Provided"}
+                  </p>
+                </div>
               </div>
-              <div className="bg-white/70 p-4 rounded-lg shadow-sm hover:shadow-md transition">
-                <p className="text-sm text-gray-600">Location</p>
-                <p className="font-semibold text-gray-800">
-                  {user?.district && user?.upazila
-                    ? `${user.upazila}, ${user.district}`
-                    : "Not Set"}
-                </p>
-              </div>
-              <div className="bg-white/70 p-4 rounded-lg shadow-sm hover:shadow-md transition">
-                <p className="text-sm text-gray-600">Role</p>
-                <p className="font-semibold text-gray-800 capitalize">
-                  {user?.role || "Donor"}
-                </p>
-              </div>
-              <div className="bg-white/70 p-4 rounded-lg shadow-sm hover:shadow-md transition flex items-center justify-between">
-                <p className="text-sm text-gray-600">Status</p>
-                <span
-                  className={`badge ${
-                    user?.status === "active" ? "badge-success" : "badge-error"
-                  }`}
-                >
-                  {user?.status || "Active"}
-                </span>
+
+              {/* User Details */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="bg-white/70 p-4 rounded-lg shadow-sm hover:shadow-md transition">
+                  <p className="text-sm text-gray-600">Blood Group</p>
+                  <p className="font-semibold text-gray-800">
+                    {user?.bloodGroup || "Not Set"}
+                  </p>
+                </div>
+                <div className="bg-white/70 p-4 rounded-lg shadow-sm hover:shadow-md transition">
+                  <p className="text-sm text-gray-600">Location</p>
+                  <p className="font-semibold text-gray-800">
+                    {user?.district && user?.upazila
+                      ? `${user.upazila}, ${user.district}`
+                      : "Not Set"}
+                  </p>
+                </div>
+                <div className="bg-white/70 p-4 rounded-lg shadow-sm hover:shadow-md transition">
+                  <p className="text-sm text-gray-600">Role</p>
+                  <p className="font-semibold text-gray-800 capitalize">
+                    {user?.role || "Donor"}
+                  </p>
+                </div>
+                <div className="bg-white/70 p-4 rounded-lg shadow-sm hover:shadow-md transition flex items-center justify-between">
+                  <p className="text-sm text-gray-600">Status</p>
+                  <span
+                    className={`badge ${
+                      user?.status === "active" ? "badge-success" : "badge-error"
+                    }`}
+                  >
+                    {user?.status || "Active"}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </main>
     </div>

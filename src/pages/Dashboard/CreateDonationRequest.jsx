@@ -48,10 +48,9 @@ const CreateDonationRequest = () => {
       <Sidebar />
 
       <main className="flex-1 p-6">
-        <h2 className="text-3xl font-bold text-red-600 mb-6 text-center md:text-left">
-          Create Donation Request
+        <h2 className="text-3xl font-extrabold text-red-600 mb-8 text-center">
+          🩸 Create Blood Donation Request
         </h2>
-
         <form
           onSubmit={handleSubmit}
           className="max-w-3xl mx-auto bg-gradient-to-br from-red-50 via-red-100 to-white p-8 rounded-3xl shadow-2xl space-y-6"

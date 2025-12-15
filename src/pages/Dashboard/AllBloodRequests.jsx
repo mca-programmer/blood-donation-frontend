@@ -1,8 +1,8 @@
-// src/pages/Dashboard/AllBloodRequests.jsx
 import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar";
 import { useAuth } from "../../context/AuthContext";
 import DonationCard from "../../components/DonationCard";
+import Loading from "../../components/Loading";
 
 const AllBloodRequests = () => {
   const { axiosInstance } = useAuth();
@@ -11,51 +11,66 @@ const AllBloodRequests = () => {
 
   useEffect(() => {
     const fetchRequests = async () => {
-      setLoading(true);
       try {
+        setLoading(true);
         const res = await axiosInstance.get("/donation-requests");
         setRequests(res.data);
       } catch (err) {
-        console.error(err);
+        console.error("Failed to load requests", err);
       } finally {
         setLoading(false);
       }
     };
+
     fetchRequests();
   }, [axiosInstance]);
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="min-h-screen flex bg-gray-100">
+      {/* Sidebar */}
       <Sidebar />
 
-      <main className="flex-1 p-6">
-        <h2 className="text-3xl font-bold text-red-600 mb-6">
-          All Blood Donation Requests
-        </h2>
+      {/* Main Content */}
+      <main className="flex-1 p-6 lg:p-10">
+        <div className="mb-8">
+          <h2 className="text-3xl font-extrabold text-red-600">
+            🩸 All Blood Donation Requests
+          </h2>
+          <p className="text-gray-500 mt-1">
+            View and manage all blood donation requests
+          </p>
+        </div>
 
-        {loading ? (
-          <div className="text-center py-20">
-            <span className="loading loading-spinner loading-lg text-red-500"></span>
-            <p className="mt-4 text-gray-600">Loading requests...</p>
+        {/* Loading */}
+        {loading && (
+          <div className="flex justify-center items-center py-32">
+            <Loading text="Loading blood requests..." />
           </div>
-        ) : requests.length ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        )}
+
+        {/* Data */}
+        {!loading && requests.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
             {requests.map((req) => (
               <DonationCard
                 key={req._id}
                 donation={req}
-                className="hover:scale-105 transition-transform duration-300"
+                className="hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
               />
             ))}
           </div>
-        ) : (
-          <div className="text-center py-20 bg-white rounded-xl shadow-md">
+        )}
+
+        {/* Empty State */}
+        {!loading && requests.length === 0 && (
+          <div className="flex flex-col items-center justify-center bg-white rounded-xl shadow-md py-24">
             <div className="text-6xl mb-4">🩸</div>
             <h3 className="text-2xl font-bold text-gray-700 mb-2">
               No Donation Requests Found
             </h3>
-            <p className="text-gray-500 mb-6">
-              Be the first to create a blood donation request to help others.
+            <p className="text-gray-500 max-w-md text-center">
+              There are currently no blood donation requests. Check back later
+              or encourage users to create new requests.
             </p>
           </div>
         )}

@@ -1,16 +1,16 @@
-// src/pages/Dashboard/MyDonationRequests.jsx
 import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar";
 import { useAuth } from "../../context/AuthContext";
 import DonationCard from "../../components/DonationCard";
 import Pagination from "../../components/Pagination";
+import Loading from "../../components/Loading"; //  
 
 const MyDonationRequests = () => {
   const { axiosInstance } = useAuth();
   const [requests, setRequests] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true); // Start with true to show loading initially
 
   const fetchRequests = async () => {
     setLoading(true);
@@ -66,10 +66,7 @@ const MyDonationRequests = () => {
         </div>
 
         {loading ? (
-          <div className="text-center py-20">
-            <span className="loading loading-spinner loading-lg text-red-600"></span>
-            <p className="mt-4 text-gray-600">Loading your requests...</p>
-          </div>
+          <Loading text="Loading your donation requests..." />
         ) : requests.length ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {requests.map((req) => (
@@ -99,7 +96,7 @@ const MyDonationRequests = () => {
           </div>
         )}
 
-        {totalPages > 1 && (
+        {totalPages > 1 && !loading && (
           <div className="mt-8 flex justify-center">
             <Pagination
               currentPage={currentPage}
