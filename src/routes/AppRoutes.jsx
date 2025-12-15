@@ -44,7 +44,7 @@ const AppRoutes = () => {
       <Route path="/search" element={<Search />} />
       <Route path="/donation-requests" element={<DonationRequests />} />
       
-      {/* ✅ FIXED: Changed from /donation-requests/:id to /donation/:id */}
+      {/* /donation-requests/:id to /donation/:id */}
       <Route path="/donation/:id" element={<DonationDetails />} />
 
       {/* ==================== DASHBOARD ROUTES ==================== */}

@@ -1,6 +1,6 @@
 import React from "react";
 
-// ===================== FAQ Section =====================
+// FAQ Section
 export const FAQSection = () => {
   const faqs = [
     {

@@ -41,7 +41,7 @@ export default function BloodDonationBanner() {
               className="h-[420px] flex items-center justify-center text-center bg-cover bg-center relative"
               style={{ backgroundImage: `url(${slide.img})` }}
             >
-              <div className="absolute inset-0 bg-red-500/30"></div>
+              <div className="absolute inset-0 bg-red-800/25"></div>
               <div className="relative z-10 text-white px-4">
                 <h1 className="text-4xl md:text-5xl font-bold mb-4">
                   {slide.title}

@@ -38,7 +38,7 @@ const Register = () => {
     }
   };
 
-  // ✅ Full screen loader while registering
+  //  Full screen loader while registering
   if (loading) {
     return <Loading text="Creating your account..." />;
   }

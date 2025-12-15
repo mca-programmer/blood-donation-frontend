@@ -27,7 +27,7 @@ const Login = () => {
     }
   };
 
-  // ✅ Show loader when auth is loading
+  //  Show loader when auth is loading
   if (loading) {
     return <Loading text="Logging you in..." />;
   }

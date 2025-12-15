@@ -3,7 +3,7 @@ import Sidebar from "../../components/Sidebar";
 import { useAuth } from "../../context/AuthContext";
 import DonationCard from "../../components/DonationCard";
 import Pagination from "../../components/Pagination";
-import Loading from "../../components/Loading"; //  
+import Loading from "../../components/Loading"; //
 
 const MyDonationRequests = () => {
   const { axiosInstance } = useAuth();
@@ -37,7 +37,8 @@ const MyDonationRequests = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm("Are you sure you want to delete this donation request?")) return;
+    if (!confirm("Are you sure you want to delete this donation request?"))
+      return;
 
     try {
       await axiosInstance.delete(`/donation-requests/${id}`);
@@ -59,7 +60,9 @@ const MyDonationRequests = () => {
 
       <main className="flex-1 p-6">
         <div className="mb-6 text-center md:text-left">
-          <h2 className="text-3xl font-bold text-red-600">My Donation Requests</h2>
+          <h2 className="text-3xl font-bold text-red-600">
+            My Donation Requests
+          </h2>
           <p className="text-gray-600 mt-2">
             Manage your blood donation requests
           </p>

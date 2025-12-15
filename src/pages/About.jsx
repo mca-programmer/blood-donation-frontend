@@ -34,11 +34,22 @@ const About = () => {
       <Navbar />
 
       <main className="flex-1">
+        
+        {/* About section */}
         <AboutUs />
+
+        {/* Team section */}
         <TeamSection />
+
+        {/* Stats section */}
         <StatsSection />
+
+        {/* Testimonials section */}
         <Testimonials />
+
+        {/* Call to action section */}
         <CTASection />
+
       </main>
 
       <Footer />

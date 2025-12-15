@@ -78,7 +78,7 @@ const CreateDonationRequest = () => {
           </div>
 
           {/* Recipient Info */}
-          <div className="grid grid-cols-1 text-gray-600 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 text-gray-400 md:grid-cols-2 gap-4">
             <div>
               <label className="label font-semibold">Recipient Name *</label>
               <input

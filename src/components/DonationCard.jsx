@@ -48,7 +48,7 @@ const DonationCard = ({ donation, showActions = true, onDelete, onEdit }) => {
     return colors[bloodGroup] || "bg-gray-100 text-gray-800";
   };
 
-  // ✅ Handle View Details - Navigate to details page
+  //  Handle View Details - Navigate to details page
   const handleViewDetails = () => {
     navigate(`/donation/${donation._id}`);
   };
@@ -61,7 +61,7 @@ const DonationCard = ({ donation, showActions = true, onDelete, onEdit }) => {
           <div>
             <h3 className="font-bold text-xl mb-1">{donation.recipientName}</h3>
             <p className="text-sm opacity-90">
-              📍 {donation.recipientDistrict}, {donation.recipientUpazila}
+               {donation.recipientDistrict}, {donation.recipientUpazila}
             </p>
           </div>
           <div className={`badge ${getStatusBadge(donation.status)} badge-lg`}>
@@ -133,7 +133,7 @@ const DonationCard = ({ donation, showActions = true, onDelete, onEdit }) => {
       {/* Card Footer - Actions */}
       {showActions && (
         <div className="p-4 bg-gray-50 border-t flex gap-2 justify-between items-center">
-          {/* ✅ View Details Button - Always visible */}
+          {/* View Details Button - Always visible */}
           <button
             onClick={handleViewDetails}
             className="btn btn-sm btn-primary flex-1"
