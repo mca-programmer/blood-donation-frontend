@@ -37,13 +37,13 @@ export const AuthProvider = ({ children }) => {
 
   const [loading, setLoading] = useState(false);
 
-  // ✅ FIX: Create axios instance ONCE using useMemo
+  //  FIX: Create axios instance ONCE using useMemo
   const axiosInstance = useMemo(() => {
     const instance = axios.create({
       baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
     });
 
-    // ✅ Request Interceptor - Always add fresh token from localStorage
+    //  Request Interceptor - Always add fresh token from localStorage
     instance.interceptors.request.use(
       (config) => {
         const token = localStorage.getItem("token");
@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }) => {
       }
     );
 
-    // ✅ Response Interceptor - Handle 401 errors
+    //  Response Interceptor - Handle 401 errors
     instance.interceptors.response.use(
       (response) => response,
       (error) => {
@@ -90,28 +90,34 @@ export const AuthProvider = ({ children }) => {
   const register = async (formData) => {
     try {
       setLoading(true);
+      console.log(" Registration started with data:", formData);
 
       const { name, email, password, bloodGroup, district, upazila, avatar } = formData;
 
-      // 1️⃣ Firebase authentication
+      // 1️ Firebase authentication
+      console.log(" Creating Firebase user...");
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       await firebaseUpdateProfile(userCredential.user, {
         displayName: name,
         photoURL: avatar || "",
       });
+      console.log(" Firebase user created");
 
-      // 2️⃣ Send user to backend (extra fields)
+      // 2️ Send user to backend WITH PASSWORD 
+      console.log(" Sending to backend with password...");
       const res = await axiosInstance.post("/auth/register", {
         uid: userCredential.user.uid,
         name,
         email,
+        password,  
         bloodGroup,
         district,
         upazila,
         avatar: avatar || userCredential.user.photoURL,
       });
+      console.log(" Backend registration successful");
 
-      // 3️⃣ Store token and user
+      // 3️ Store token and user
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
       
@@ -120,7 +126,7 @@ export const AuthProvider = ({ children }) => {
       navigate("/dashboard");
       alert("Registration Successful!");
     } catch (err) {
-      console.error("Registration Error:", err.response?.data?.message || err.message);
+      console.error(" Registration Error:", err.response?.data?.message || err.message);
       alert(err.response?.data?.message || err.message);
       throw err;
     } finally {
@@ -134,14 +140,19 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       setLoading(true);
+      console.log(" Login started for:", email);
       
-      // 1️⃣ Firebase authentication
+      // 1️ Firebase authentication
+      console.log(" Firebase login...");
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log(" Firebase login successful");
 
-      // 2️⃣ Backend login with email AND password
+      // 2 Backend login with email AND password
+      console.log(" Backend login...");
       const res = await axiosInstance.post("/auth/login", { email, password });
+      console.log(" Backend login successful");
 
-      // 3️⃣ Store token and user
+      // 3 Store token and user
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
       
@@ -149,7 +160,7 @@ export const AuthProvider = ({ children }) => {
 
       navigate("/dashboard");
     } catch (err) {
-      console.error("Login Error:", err.response?.data?.message || err.message);
+      console.error(" Login Error:", err.response?.data?.message || err.message);
       alert(err.response?.data?.message || err.message);
       throw err;
     } finally {
@@ -164,18 +175,18 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true);
       
-      // 1️⃣ Firebase Google Sign-In
+      // 1️ Firebase Google Sign-In
       const result = await signInWithPopup(auth, googleProvider);
       const firebaseUser = result.user;
 
-      // 2️⃣ Send to backend
+      // 2️ Send to backend
       const res = await axiosInstance.post("/auth/google-login", {
         email: firebaseUser.email,
         displayName: firebaseUser.displayName,
         uid: firebaseUser.uid,
       });
 
-      // 3️⃣ Store token and user
+      // 3️ Store token and user
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
       
