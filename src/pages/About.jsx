@@ -1,26 +1,48 @@
-// src/pages/About.jsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import ContactUsSection from "../components/home/ContactUsSection";
-import StatsSection from "../components/AboutUs/StatsSection";
-import TeamSection from "../components/AboutUs/TeamSection";
-import CTASection from "../components/AboutUs/CTASection";
-import Testimonials from "../components/AboutUs/Testimonials";
+import Loading from "../components/Loading";
+
 import AboutUs from "../components/AboutUs/AboutUs";
+import TeamSection from "../components/AboutUs/TeamSection";
+import StatsSection from "../components/AboutUs/StatsSection";
+import Testimonials from "../components/AboutUs/Testimonials";
+import CTASection from "../components/AboutUs/CTASection";
 
 const About = () => {
-  return (
-    <>
-      <Navbar />
-      <AboutUs/>
-      <TeamSection/>
-      <StatsSection/>
-      <Testimonials/>
-      <CTASection/>
+  const [loading, setLoading] = useState(true);
 
-      <Footer/>
-    </>
+  useEffect(() => {
+    // Simulate page load (API / heavy components)
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 800);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <Loading text="Loading About Us..." />
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <Navbar />
+
+      <main className="flex-1">
+        <AboutUs />
+        <TeamSection />
+        <StatsSection />
+        <Testimonials />
+        <CTASection />
+      </main>
+
+      <Footer />
+    </div>
   );
 };
 

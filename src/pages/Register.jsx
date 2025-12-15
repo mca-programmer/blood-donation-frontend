@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import Loading from "../components/Loading";
 
 const Register = () => {
   const { register, loading } = useAuth();
@@ -37,17 +38,22 @@ const Register = () => {
     }
   };
 
+  // ✅ Full screen loader while registering
+  if (loading) {
+    return <Loading text="Creating your account..." />;
+  }
+
   return (
     <div>
       <Navbar />
-      
-      <div className="flex justify-center items-center h-screen bg-gray-50 container mx-auto text-center py-10">
+
+      <div className="flex justify-center items-center min-h-screen bg-gray-50 container mx-auto px-4 py-10">
         <form
           onSubmit={handleSubmit}
-          className="card p-8 shadow-lg w-full max-w-md space-y-4 bg-white rounded-lg"
+          className="card p-8 shadow-xl w-full max-w-md space-y-4 bg-white rounded-2xl"
         >
           <h2 className="text-2xl text-red-500 font-bold text-center">
-           BloodDonate Register Now!
+            BloodDonate Register
           </h2>
 
           <input
@@ -131,7 +137,7 @@ const Register = () => {
           <input
             type="text"
             name="avatar"
-            placeholder="Avatar URL"
+            placeholder="Avatar URL (optional)"
             className="input input-bordered w-full"
             value={form.avatar}
             onChange={handleChange}
@@ -140,14 +146,13 @@ const Register = () => {
           <button
             type="submit"
             className="btn btn-primary hover:bg-red-600 w-full"
-            disabled={loading}
           >
-            {loading ? "Registering..." : "Register"}
+            Register
           </button>
         </form>
       </div>
 
-      <Footer/>
+      <Footer />
     </div>
   );
 };

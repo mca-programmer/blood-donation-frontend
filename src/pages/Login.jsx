@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { FcGoogle } from "react-icons/fc";
 import Footer from "../components/Footer";
+import Loading from "../components/Loading";
 
 const Login = () => {
   const { login, loginWithGoogle, loading } = useAuth();
@@ -26,18 +27,25 @@ const Login = () => {
     }
   };
 
+  // ✅ Show loader when auth is loading
+  if (loading) {
+    return <Loading text="Logging you in..." />;
+  }
+
   return (
     <div>
       <Navbar />
-      
-      <div className="flex justify-center bg-gray-50 items-center h-screen container mx-auto text-center">
+
+      <div className="flex justify-center bg-gray-50 items-center min-h-screen container mx-auto px-4">
         <form
           onSubmit={handleSubmit}
-          className="card p-8 shadow-lg w-full max-w-md space-y-4 bg-white"
+          className="card p-8 shadow-xl w-full max-w-md space-y-4 bg-white rounded-2xl"
         >
-          <h2 className="text-2xl font-bold text-red-500 text-center">BloodDonate Login Now!</h2>
+          <h2 className="text-2xl font-bold text-red-500 text-center">
+            BloodDonate Login
+          </h2>
 
-          {/* Email Input */}
+          {/* Email */}
           <input
             type="email"
             placeholder="Email"
@@ -47,7 +55,7 @@ const Login = () => {
             required
           />
 
-          {/* Password Input */}
+          {/* Password */}
           <input
             type="password"
             placeholder="Password"
@@ -57,15 +65,17 @@ const Login = () => {
             required
           />
 
-          {/* Login Button */}
-          <button className="btn btn-primary w-full hover:bg-red-600 " disabled={loading}>
+          {/* Login */}
+          <button
+            className="btn btn-primary w-full hover:bg-red-600"
+            disabled={loading}
+          >
             Login
           </button>
 
-          {/* OR Divider */}
           <div className="text-center text-red-400 my-2">OR</div>
 
-          {/* Google Login Button */}
+          {/* Google */}
           <button
             type="button"
             onClick={handleGoogleLogin}
@@ -77,14 +87,14 @@ const Login = () => {
 
           <p className="text-center text-red-400 mt-4">
             Don't have an account?{" "}
-            <Link to="/register" className="text-primary">
+            <Link to="/register" className="text-primary font-semibold">
               Register
             </Link>
           </p>
         </form>
       </div>
 
-      <Footer/>
+      <Footer />
     </div>
   );
 };
