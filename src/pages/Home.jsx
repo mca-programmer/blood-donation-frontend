@@ -1,6 +1,5 @@
 // src/pages/Home.jsx
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import BloodDonationBanner from "../components/home/BloodDonationBanner";
@@ -8,29 +7,45 @@ import { PartnersSection } from "../components/home/PartnersSection";
 import { FAQSection } from "../components/home/FAQSection";
 import WhyDonateBloodSection from "../components/home/WhyDonateBloodSection";
 import ContactUsSection from "../components/home/ContactUsSection";
+import Loading from "../components/Loading";
 
 const Home = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // fake loading (UI smooth feel)
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1200); // 1.2s
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return <Loading text="Welcome to BloodDonate..." />;
+  }
+
   return (
     <div>
-      {/* navbar section */}
+      {/* Navbar */}
       <Navbar />
 
-      {/* Banner section */}
+      {/* Banner */}
       <BloodDonationBanner />
 
-      {/* partners Section */}
+      {/* Partners */}
       <PartnersSection />
 
-      {/* Why Donate Blood */}
+      {/* Why Donate */}
       <WhyDonateBloodSection />
 
-      {/* FAQ Section */}
+      {/* FAQ */}
       <FAQSection />
 
-      {/* Contact Us */}
+      {/* Contact */}
       <ContactUsSection />
 
-      {/* footer section */}
+      {/* Footer */}
       <Footer />
     </div>
   );
