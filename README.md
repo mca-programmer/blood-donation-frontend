@@ -71,7 +71,7 @@ Amader mission holo blood donation process ke simplified kora, jate emergency si
 ### 🏠 Home Page
 *Beautiful landing page jeta users ke welcome kore*
 
-[![hero.png](https://i.postimg.cc/v8xN69VD/hero.png)](https://postimg.cc/JtmqfsKW)
+![Image Description](https://i.imgur.com/yourImageID.png)
 
 ### 📋 Donor Dashboard
 *Comprehensive dashboard donors der jonno*
