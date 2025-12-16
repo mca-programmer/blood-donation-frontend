@@ -71,17 +71,22 @@ Amader mission holo blood donation process ke simplified kora, jate emergency si
 ### 🏠 Home Page
 *Beautiful landing page jeta users ke welcome kore*
 
-![Home Page](https://via.placeholder.com/800x400/FF0000/FFFFFF?text=Home+Page+Screenshot)
+[![hero.png](https://i.postimg.cc/v8xN69VD/hero.png)](https://postimg.cc/JtmqfsKW)
 
 ### 📋 Donor Dashboard
 *Comprehensive dashboard donors der jonno*
 
-![Dashboard](https://via.placeholder.com/800x400/0066CC/FFFFFF?text=Dashboard+Screenshot)
+[![dashboard.png](https://i.postimg.cc/dQC50YbW/dashboard.png)](https://postimg.cc/9zWdxvFT)
+
+### 📋 Donor All User
+*Comprehensive all user donors der jonno*
+
+[![all-users.png](https://i.postimg.cc/fW7YFR48/all-users.png)](https://postimg.cc/DmZW4FwG)
 
 ### 🔍 Search Interface
 *Advanced search jeta donors khuje ber kore*
 
-![Search](https://via.placeholder.com/800x400/00CC66/FFFFFF?text=Search+Screenshot)
+[![filter.png](https://i.postimg.cc/TPScR7Q7/filter.png)](https://postimg.cc/jWHfchpP)
 
 </div>
 
@@ -106,56 +111,6 @@ Amader mission holo blood donation process ke simplified kora, jate emergency si
 ### Prerequisites
 
 Ensure apnar system e ei tools gulo installed ache:
-
-```bash
-✓ Node.js (v16+ recommended)
-✓ npm or yarn or pnpm
-✓ Git
-```
-
-### Installation Steps
-
-1️⃣ **Repository Clone korun**
-
-```bash
-git clone https://github.com/mca-programmer/blood-donation-frontend.git
-cd blood-donation-frontend
-```
-
-2️⃣ **Dependencies Install korun**
-
-```bash
-# npm use kore
-npm install
-
-# or yarn use kore
-yarn install
-
-# or pnpm use kore
-pnpm install
-```
-
-3️⃣ **Environment Variables Setup**
-
-`.env` file create korun project root e:
-
-```env
-VITE_API_URL=http://localhost:5000
-VITE_APP_NAME=Blood Donation System
-VITE_MAP_API_KEY=your_map_api_key
-VITE_FIREBASE_API_KEY=your_firebase_key
-VITE_ENABLE_ANALYTICS=true
-```
-
-4️⃣ **Development Server Run korun**
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
 
 🎉 **Boom!** Application running at `http://localhost:5173`
 
