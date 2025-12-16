@@ -486,18 +486,6 @@ Full license text [LICENSE](LICENSE) file e available.
 
 ---
 
-## 📚 Documentation
-
-Detailed documentation er jonno visit korun:
-
-- 📖 [User Guide](docs/USER_GUIDE.md)
-- 🛠️ [Developer Guide](docs/DEVELOPER_GUIDE.md)
-- 🎨 [Design System](docs/DESIGN_SYSTEM.md)
-- 🔌 [API Documentation](docs/API.md)
-- ❓ [FAQ](docs/FAQ.md)
-
----
-
 ## 🌟 Show Your Support
 
 Jodi ei project apnar helpful lage, tahole:
