@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+} from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -40,7 +46,9 @@ export const AuthProvider = ({ children }) => {
   //  FIX: Create axios instance ONCE using useMemo
   const axiosInstance = useMemo(() => {
     const instance = axios.create({
-      baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
+      baseURL:
+        import.meta.env.VITE_API_URL ||
+        "https://blood-donation-backend-rouge.vercel.app/api",
     });
 
     //  Request Interceptor - Always add fresh token from localStorage
@@ -92,24 +100,29 @@ export const AuthProvider = ({ children }) => {
       setLoading(true);
       console.log(" Registration started with data:", formData);
 
-      const { name, email, password, bloodGroup, district, upazila, avatar } = formData;
+      const { name, email, password, bloodGroup, district, upazila, avatar } =
+        formData;
 
       // 1️ Firebase authentication
       console.log(" Creating Firebase user...");
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       await firebaseUpdateProfile(userCredential.user, {
         displayName: name,
         photoURL: avatar || "",
       });
       console.log(" Firebase user created");
 
-      // 2️ Send user to backend WITH PASSWORD 
+      // 2️ Send user to backend WITH PASSWORD
       console.log(" Sending to backend with password...");
       const res = await axiosInstance.post("/auth/register", {
         uid: userCredential.user.uid,
         name,
         email,
-        password,  
+        password,
         bloodGroup,
         district,
         upazila,
@@ -120,13 +133,16 @@ export const AuthProvider = ({ children }) => {
       // 3️ Store token and user
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
-      
+
       setUser(res.data.user);
 
       navigate("/dashboard");
       alert("Registration Successful!");
     } catch (err) {
-      console.error(" Registration Error:", err.response?.data?.message || err.message);
+      console.error(
+        " Registration Error:",
+        err.response?.data?.message || err.message
+      );
       alert(err.response?.data?.message || err.message);
       throw err;
     } finally {
@@ -141,10 +157,14 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true);
       console.log(" Login started for:", email);
-      
+
       // 1️ Firebase authentication
       console.log(" Firebase login...");
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       console.log(" Firebase login successful");
 
       // 2 Backend login with email AND password
@@ -155,12 +175,15 @@ export const AuthProvider = ({ children }) => {
       // 3 Store token and user
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
-      
+
       setUser(res.data.user);
 
       navigate("/dashboard");
     } catch (err) {
-      console.error(" Login Error:", err.response?.data?.message || err.message);
+      console.error(
+        " Login Error:",
+        err.response?.data?.message || err.message
+      );
       alert(err.response?.data?.message || err.message);
       throw err;
     } finally {
@@ -174,7 +197,7 @@ export const AuthProvider = ({ children }) => {
   const loginWithGoogle = async () => {
     try {
       setLoading(true);
-      
+
       // 1️ Firebase Google Sign-In
       const result = await signInWithPopup(auth, googleProvider);
       const firebaseUser = result.user;
@@ -189,7 +212,7 @@ export const AuthProvider = ({ children }) => {
       // 3️ Store token and user
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
-      
+
       setUser(res.data.user);
 
       navigate("/dashboard");
@@ -210,7 +233,7 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-    
+
     navigate("/login");
   };
 
@@ -220,20 +243,23 @@ export const AuthProvider = ({ children }) => {
   const updateProfile = async (updatedData) => {
     try {
       if (updatedData.displayName && auth.currentUser) {
-        await firebaseUpdateProfile(auth.currentUser, { 
-          displayName: updatedData.displayName 
+        await firebaseUpdateProfile(auth.currentUser, {
+          displayName: updatedData.displayName,
         });
       }
 
       const res = await axiosInstance.put(`/users/${user._id}`, updatedData);
-      
+
       const updatedUser = res.data;
       localStorage.setItem("user", JSON.stringify(updatedUser));
       setUser(updatedUser);
-      
+
       return updatedUser;
     } catch (err) {
-      console.error("Update Profile Error:", err.response?.data?.message || err.message);
+      console.error(
+        "Update Profile Error:",
+        err.response?.data?.message || err.message
+      );
       throw err;
     }
   };

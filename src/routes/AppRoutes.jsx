@@ -20,6 +20,7 @@ import CreateDonationRequest from "../pages/Dashboard/CreateDonationRequest";
 import AllUsers from "../pages/Dashboard/AllUsers";
 import AllBloodRequests from "../pages/Dashboard/AllBloodRequests";
 import Funding from "../pages/Funding";
+import NotFound from "../pages/Notfound";
 
 // Private Route Component
 const PrivateRoute = ({ children }) => {
@@ -59,7 +60,8 @@ const AppRoutes = () => {
       <Route path="/funding" element={<AdminRoute><Funding /></AdminRoute>} />
 
       {/* ==================== FALLBACK ==================== */}
-      <Route path="*" element={<Navigate to="/" replace />} />
+      {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };
